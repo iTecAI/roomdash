@@ -9,18 +9,20 @@ from googleapiclient.discovery import build
 from datetime import date, datetime, timedelta
 import pytz
 
-def default(dct, key, default=None):
+def default(dct, key, default=None): # Load key from dct, or default on failure
     try:
         return dct[key]
     except KeyError:
         return default
 
-def _load_layer(includeLayers, zoom, i, keys):
+def _load_layer(includeLayers, zoom, i, keys): # Load a single tile of the stitched image
     layer = []
     for x in includeLayers:
         layer.insert(0, Image.open(io.BytesIO(requests.get(
-            f'https://tile.openweathermap.org/map/{x}/{zoom}/{i[0]}/{i[1]}.png', {'appid': keys['owm']}).content)))
-    polygon = Tile.tile_coords_to_bbox(i[0], i[1], zoom)
+            f'https://tile.openweathermap.org/map/{x}/{zoom}/{i[0]}/{i[1]}.png', {'appid': keys['owm']}).content))) # Get each layer from OWM
+    polygon = Tile.tile_coords_to_bbox(i[0], i[1], zoom) # Get bounding box
+
+    # Load satellite image
     backdrop = Image.open(
         io.BytesIO(
             requests.get(
@@ -33,10 +35,13 @@ def _load_layer(includeLayers, zoom, i, keys):
             ).content
         )
     )
+
+    # Paste layers together
     for l in layer:
         backdrop.paste(l, (0,0), l)
     return backdrop
 
+# Get weather information
 def fetchWeatherInformation(latitude, longitude, zoom, keys={
     'owm': '',
     'mapbox': ''
@@ -45,9 +50,11 @@ def fetchWeatherInformation(latitude, longitude, zoom, keys={
         'lat': latitude,
         'lon': longitude,
         'appid': keys['owm']
-    }).json()
+    }).json() # Get oneCall JSON data
 
-    tileCoords = Tile.tile_coords_for_point(Point(longitude, latitude), zoom)
+    tileCoords = Tile.tile_coords_for_point(Point(longitude, latitude), zoom) # Get tile coordinates from lat/lon/zoom
+    
+    # Assemble stitch map from tileSpan
     if tileSpan == 0:
         allTileCoords = [tileCoords]
         tileRelatives = [(0, 0)]
@@ -61,10 +68,12 @@ def fetchWeatherInformation(latitude, longitude, zoom, keys={
             tileRelatives.extend(
                 [(i[0]-tileCoords[0], i[1]-tileCoords[1]) for i in c])
 
+    # Fetch each tile image
     with ThreadPoolExecutor(max_workers=16) as executor:
         results = [executor.submit(_load_layer, includeLayers, zoom, allTileCoords[c], keys) for c in range(len(allTileCoords))]
     tileImages = {tileRelatives[c]:results[c].result() for c in range(len(tileRelatives))}
     
+    # Stitch tile images together into the final image
     resultant = Image.new('RGBA', [256+512*tileSpan, 256+512*tileSpan], (0,0,0,0))
     for img in tileImages.keys():
         resultant.paste(
@@ -76,18 +85,23 @@ def fetchWeatherInformation(latitude, longitude, zoom, keys={
 
     return oneCallData, resultantBytes.getvalue()
 
-class Calendar:
+class Calendar: # Object for getting calendar events
     def __init__(self, credentials_file, cid, emailMap={}):
         SCOPES = ['https://www.googleapis.com/auth/calendar']
         SERVICE_ACCOUNT_FILE = credentials_file
+
+        # Load credentials
         self.credentials = service_account.Credentials.from_service_account_file(SERVICE_ACCOUNT_FILE, scopes=SCOPES)
         self.service = build('calendar', 'v3', credentials=self.credentials)
         self.cid = cid
         self.emailMap = emailMap
 
-    def getEvents(self, count=25, days=7):
+    def getEvents(self, count=25, days=7): # Get list of events
+        # Get start and end of results to fetch
         now = datetime.utcnow().isoformat() + 'Z'
         endDate = (datetime.utcnow()+timedelta(days=days)).isoformat() + 'Z'
+
+        # Get raw list of events
         calendar = self.service.events().list(
             calendarId=self.cid,
             maxResults=count,
@@ -97,8 +111,11 @@ class Calendar:
             timeMax=endDate
         ).execute()
         events = calendar['items']
+
+        # Assemble event list into standard format
         ret = []
         for e in events:
+            # Assemble start and end entries
             if 'dateTime' in e['start'].keys():
                 start = datetime.fromisoformat(e['start']['dateTime'])
                 if 'timeZone' in e['start'].keys():
@@ -118,6 +135,8 @@ class Calendar:
             else:
                 end = datetime.fromisoformat(e['end']['date'])
                 end = pytz.timezone('UTC').localize(end)
+            
+            # Build dict and add it to the return
             item = {
                 'name': e['summary'],
                 'status': e['status'],
