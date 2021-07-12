@@ -45,11 +45,12 @@ def _load_layer(includeLayers, zoom, i, keys): # Load a single tile of the stitc
 def fetchWeatherInformation(latitude, longitude, zoom, keys={
     'owm': '',
     'mapbox': ''
-}, tileSpan=1, includeLayers=['precipitation']):
+}, tileSpan=1, includeLayers=['precipitation'], units='standard'):
     oneCallData = requests.get('https://api.openweathermap.org/data/2.5/onecall', params={
         'lat': latitude,
         'lon': longitude,
-        'appid': keys['owm']
+        'appid': keys['owm'],
+        'units': units
     }).json() # Get oneCall JSON data
 
     tileCoords = Tile.tile_coords_for_point(Point(longitude, latitude), zoom) # Get tile coordinates from lat/lon/zoom
