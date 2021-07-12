@@ -132,7 +132,25 @@ function refresh_events(data) {
 }
 
 function refresh_time() {
-
+    var now = new Date(Date.now());
+    if (now.getHours() < 10) {
+        var hrs = '0' + now.getHours();
+    } else {
+        var hrs = now.getHours();
+    }
+    if (now.getMinutes() < 10) {
+        var min = '0' + now.getMinutes();
+    } else {
+        var min = now.getMinutes();
+    }
+    if (now.getSeconds() < 10) {
+        var sec = '0' + now.getSeconds();
+    } else {
+        var sec = now.getSeconds();
+    }
+    $('#time-panel .time').text(hrs + ':' + min + ':' + sec);
+    $('#time-panel .date').text(WEEKDAYS[now.getDay()] + ' ' + now.getMonth() + '/' + now.getDate() + '/' + now.getFullYear());
+    $('#time-panel .location-name .value').text(CONFIG.target.locationDisplayName + ' (' + CONFIG.target.latitude.toFixed(4) + ', ' + CONFIG.target.longitude.toFixed(4) + ')');
 }
 
 $(document).ready(function () {
