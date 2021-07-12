@@ -7,11 +7,7 @@ var UNITS = {
     metric: "C",
     imperial: "F"
 };
-var SPEED_UNITS = {
-    standard: "km/h",
-    metric: "km/h",
-    imperial: "mph"
-};
+var WEEKDAYS = ['Sun.', 'Mon.', 'Tue.', 'Wed.', 'Thu.', 'Fri.', 'Sat.'];
 
 function refresh_weather(data) {
     WEATHER = data;
@@ -22,7 +18,7 @@ function refresh_weather(data) {
         $('<span class="weather-basic item"></span>')
             .append($('<img>').attr('src', 'http://openweathermap.org/img/wn/'+WEATHER.current.weather[0].icon+'@2x.png'))
             .append($('<span class="main"></span>').text(WEATHER.current.weather[0].main))
-            .append($('<span class="desc"></span>').text('[ ' + WEATHER.current.weather[0].description + ' ]'))
+            .append($('<span class="desc"></span>').text('[ ' + WEATHER.current.weather[0].description.toUpperCase() + ' ]'))
     );
     dummy_stats.append(
         $('<span class="temperature item"></span>')
@@ -82,13 +78,53 @@ function refresh_weather(data) {
         hourly_weather
             .append(
                 $('<div class="hourly-weather-item"></div>')
-                    .append($('<img>').attr('src', 'http://openweathermap.org/img/wn/'+WEATHER.hourly[h].weather[0].icon+'.png'))
+                    .append($('<img>').attr('src', 'http://openweathermap.org/img/wn/'+WEATHER.hourly[h].weather[0].icon+'@2x.png'))
                     .append($('<span></span>').text(tm))
             );
     }
     hourly_weather.replaceAll('.weather-hourly')
 
     dummy_stats.replaceAll('.current-weather-stats');
+
+    var dummy_daily = $('<div class="weather-daily"></div>');
+    for (var d = 0; d < 8; d++) {
+        var forecast = $('<div class="item"></div>');
+        forecast.append(
+            $('<img>').attr('src', 'http://openweathermap.org/img/wn/'+WEATHER.daily[d].weather[0].icon+'@2x.png')
+        );
+        var fore_date = new Date(WEATHER.daily[d].dt * 1000);
+        forecast.append($('<span class="date"></span>').text(WEEKDAYS[fore_date.getDay()] + ' ' + fore_date.getMonth() + '/' + fore_date.getDate()));
+        forecast
+            .append(
+                $('<div class="forecast-temp"></div>')
+                    .append('<span class="material-icons">thermostat</span>')
+                    .append($('<span class="value"><span>').text(WEATHER.daily[d].temp.min.toFixed(2) + ' ' + UNITS[CONFIG.units] + ' / ' + WEATHER.daily[d].temp.max.toFixed(2) + ' ' + UNITS[CONFIG.units]))
+            )
+            .append(
+                $('<div class="forecast-humidity"></div>')
+                    .append('<span class="material-icons">water_drop</span>')
+                    .append($('<span class="value"><span>').text(WEATHER.daily[d].humidity + '%'))
+            );
+        var uvi = WEATHER.daily[d].uvi;
+        if (uvi < 3) {
+            var uvim = '[ LOW UVI ]';
+        } else if (uvi < 6) {
+            var uvim = '[ MODERATE UVI ]';
+        } else if (uvi < 8) {
+            var uvim = '[ HIGH UVI ]';
+        } else if (uvi < 11) {
+            var uvim = '[ VERY HIGH UVI ]';
+        } else {
+            var uvim = '[ EXTREME UVI ]';
+        }
+        forecast.append(
+            $('<div class="forecast-uvi"></div>')
+                .append('<span class="material-icons">wb_sunny</span>')
+                .append($('<span class="value"><span>').text(uvi.toFixed(2) + ' ' + uvim))
+        );
+        dummy_daily.append(forecast);
+    }
+    dummy_daily.replaceAll('.weather-daily');
 }
 
 function refresh_events(data) {

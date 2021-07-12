@@ -8,7 +8,7 @@
     --secondary: #80deea;
     --secondary-dark: #4bacb8;
     --secondary-text: #000000;
-    font-family: 'Roboto', sans-serif;
+    font-family: monospace;
 }
 
 html, body {
@@ -33,7 +33,6 @@ html, body {
 #weather-panel {
     position: absolute;
     top: 10px;
-    left: 10px;
     display: inline-block;
     width: calc(40vw - 20px);
     height: calc(100% - 20px);
@@ -155,6 +154,73 @@ html, body {
     font-size: 14px;
     font-family: monospace;
     white-space: nowrap;
+}
+
+#weather-panel .weather-daily {
+    position: absolute;
+    top: calc(30% + 90px);
+    left: 0px;
+    display: inline-block;
+    width: 100%;
+    height: calc(70% - 90px);
+    overflow: hidden;
+}
+#weather-panel .weather-daily .item {
+    margin: 5px;
+    margin-bottom: 2px;
+    position: relative;
+    display: inline-block;
+    width: calc(100% - 10px);
+    height: calc((100% / 8) - 10px);
+    box-sizing: border-box;
+    background-color: var(--secondary-dark);
+    border-radius: 5px;
+    overflow: hidden;
+}
+#weather-panel .weather-daily .item img {
+    position: absolute;
+    top: 50%;
+    left: 0px;
+    transform: translate(0, -50%);
+    display: inline-block;
+    width: 56px;
+    height: 56px;
+}
+#weather-panel .weather-daily .item .date {
+    position: absolute;
+    top: 50%;
+    left: 56px;
+    transform: translate(0, -50%);
+    display: inline-block;
+    font-size: 16px;
+}
+#weather-panel .weather-daily .item .forecast-temp {
+    position: absolute;
+    left: 156px;
+    top: 50%;
+    transform: translate(0, -50%);
+}
+#weather-panel .weather-daily .item .forecast-temp span {
+    vertical-align: middle;
+}
+#weather-panel .weather-daily .item .forecast-humidity {
+    position: absolute;
+    left: 330px;
+    top: 50%;
+    transform: translate(0, -50%);
+}
+#weather-panel .weather-daily .item .forecast-humidity span {
+    vertical-align: middle;
+}
+#weather-panel .weather-daily .item .forecast-uvi {
+    position: absolute;
+    left: 400px;
+    top: 50%;
+    transform: translate(0, -50%);
+}
+#weather-panel .weather-daily .item .forecast-uvi span {
+    vertical-align: middle;
+    margin-right: 4px;
 }
 
 #events-panel {
