@@ -47,7 +47,7 @@ html, body {
     left: 0px;
     display: inline-block;
     width: 100%;
-    height: calc(30vh - 20px);
+    height: 30%;
     background-color: var(--secondary);
     z-index: inherit;
 }
@@ -62,107 +62,84 @@ html, body {
 }
 #weather-panel .current-weather .current-weather-stats {
     position: absolute;
-    top: 5px;
-    left: calc(30vh - 20px);
+    top: 0px;
+    left: calc(30vh - 10px);
     display: inline-block;
-    width: calc(100% - 30vh + 15px);
-    height: calc(100% - 10px);
+    width: calc(100% - 30vh + 10px);
+    height: 100%;
+    overflow: hidden;
+    box-sizing: border-box;
+    padding: 0px;
+}
+#weather-panel .current-weather .current-weather-stats .item {
+    position: relative;
+    display: inline-block;
+    width: calc(50% - 10px);
+    height: calc(50% - 10px);
+    margin: 5px;
+    border-radius: 5px;
+    background-color: var(--secondary-dark);
+    vertical-align: baseline;
+    margin-bottom: 0px;
+}
+#weather-panel .current-weather .current-weather-stats .item.weather-basic img {
+    position: absolute;
+    top: 30%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 60%;
+    height: auto;
+}
+#weather-panel .current-weather .current-weather-stats .item .main {
+    position: absolute;
+    top: 55%;
+    left: 50%;
+    transform: translate(-50%, 0);
+    font-family: monospace;
+    font-size: 18px;
+    white-space: nowrap;
+}
+#weather-panel .current-weather .current-weather-stats .item .desc {
+    position: absolute;
+    bottom: 10%;
+    left: 50%;
+    transform: translate(-50%, 0);
+    font-family: monospace;
+    white-space: nowrap;
+    opacity: 0.8;
+    font-family: 10px;
+}
+#weather-panel .current-weather .current-weather-stats .item .material-icons {
+    position: absolute;
+    top: 30%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 48px;
+    opacity: 0.8;
+}
+
+#weather-panel .weather-hourly {
+    position: absolute;
+    top: calc(30% + 5px);
+    left: 5px;
+    display: inline-block;
+    height: 80px;
+    width: calc(100% - 10px);
     border-radius: 5px;
     overflow: hidden;
     box-sizing: border-box;
-    border: 2px solid var(--secondary-dark);
-}
-#weather-panel .current-weather .current-weather-stats .title {
-    position: absolute;
-    top: 0px;
-    left: 0px;
-    font-family: 'Roboto', sans-serif;
-    display: inline-block;
-    height: 24px;
-    width: 100%;
     background-color: var(--secondary-dark);
-    color: var(--secondary-text);
-    opacity: 0.8;
-    font-weight: bold;
-    padding: 2px;
-    box-sizing: border-box;
 }
-#weather-panel .current-weather .current-weather-stats .stats {
-    position: absolute;
-    top: 24px;
-    left: 0px;
-    display: inline-block;
-    width: 100%;
-    height: calc(100% - 24px);
-    font-family: monospace;
-}
-#weather-panel .current-weather .current-weather-stats .stats .weather-basic {
-    position: absolute;
-    top: 5px;
-    left: 5px;
-    font-size: 12px;
-}
-#weather-panel .current-weather .current-weather-stats .stats .weather-basic img {
-    vertical-align: middle;
-    width: 32px;
-    height: 32px;
-}
-#weather-panel .current-weather .current-weather-stats .stats .temperature {
-    top: 32px;
-}
-#weather-panel .current-weather .current-weather-stats .stats .humidity {
-    top: 56px;
-}
-#weather-panel .current-weather .current-weather-stats .stats .wind {
-    top: 80px;
-}
-#weather-panel .current-weather .current-weather-stats .stats .uvindex {
-    top: 104px;
-}
-#weather-panel .current-weather .current-weather-stats .stats .sunriseset {
-    top: 128px;
-}
-#weather-panel .current-weather .current-weather-stats .stats .item * {
-    vertical-align: middle;
-}
-#weather-panel .current-weather .current-weather-stats .stats .item {
-    left: 5px;
-    font-size: 12px;
-    position: absolute;
-}
-#weather-panel .current-weather .current-weather-stats .stats .item span:not(.material-icons) {
-    margin-left: 7px;
-}
-#weather-panel .current-weather .current-weather-stats .stats .item .material-icons {
-    margin-left: 8px;
-    font-size: 16px;
-}
-#weather-panel .current-weather .current-weather-stats .stats .weather-hourly {
-    top: 152px;
-    left: 5px;
-    position: absolute;
-    display: inline-block;
-    width: calc(100% - 10px);
-    height: calc(100% - 157px);
-    padding: 3px;
-    border-radius: 5px;
-    background-color: var(--secondary-dark);
-    font-family: 'Roboto', sans-serif;
-    box-sizing: border-box;
-}
-#weather-panel .current-weather .current-weather-stats .stats .weather-hourly .hourly-weather-item {
+#weather-panel .weather-hourly .hourly-weather-item {
     position: relative;
+    margin: 5px;
     display: inline-block;
-    width: calc((100% - (8 * 2px)) / 9);
-    height: calc(100%);
-    border-radius: 4px;
+    height: 70px;
+    width: calc((100% / 9) - 10px);
+    border-radius: 5px;
     background-color: var(--secondary);
-    margin-right: 2px;
 }
-#weather-panel .current-weather .current-weather-stats .stats .weather-hourly .hourly-weather-item:last-of-type {
-    margin-right: 0px;
-}
-#weather-panel .current-weather .current-weather-stats .stats .weather-hourly .hourly-weather-item img {
+#weather-panel .weather-hourly .hourly-weather-item img {
     position: absolute;
     top: 0px;
     left: 0px;
@@ -170,12 +147,13 @@ html, body {
     width: 100%;
     height: auto;
 }
-#weather-panel .current-weather .current-weather-stats .stats .weather-hourly .hourly-weather-item span {
+#weather-panel .weather-hourly .hourly-weather-item span {
     position: absolute;
     bottom: 5px;
     left: 50%;
     transform: translate(-50%, 0);
-    font-size: 10px;
+    font-size: 14px;
+    font-family: monospace;
     white-space: nowrap;
 }
 
