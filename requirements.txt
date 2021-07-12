@@ -1,0 +1,6 @@
+requests
+pyowm
+fastapi
+pillow
+google-api-python-client
+pytz
