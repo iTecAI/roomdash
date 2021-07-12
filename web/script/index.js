@@ -127,8 +127,72 @@ function refresh_weather(data) {
     dummy_daily.replaceAll('.weather-daily');
 }
 
+function zero(val, num) {
+    while (val.toString().length < num) {
+        val = '0' + val;
+    }
+    return val;
+}
+
 function refresh_events(data) {
     EVENTS = data;
+
+    var dummy_events = $('<div class="events-area"></div>');
+    for (var e of EVENTS) {
+        var eventItem = $('<div class="event-item"></div>');
+        eventItem.append(
+            $('<span class="prop name"></span>')
+                .append($('<span class="material-icons">event_note</span>'))
+                .append($('<span class="value"></span>').text(e.name))
+        );
+        var start = new Date(Date.parse(e.start));
+        var end = new Date(Date.parse(e.end));
+
+        var start_str = zero(start.getMonth(), 2) + '/' + 
+            zero(start.getDate(), 2) + '/' + 
+            start.getFullYear() + ' ' +
+            zero(start.getHours(), 2) + ':' +
+            zero(start.getMinutes(), 2);
+        var end_str = zero(end.getMonth(), 2) + '/' + 
+            zero(end.getDate(), 2) + '/' + 
+            end.getFullYear() + ' ' +
+            zero(end.getHours(), 2) + ':' +
+            zero(end.getMinutes(), 2);
+        
+        if (
+            start.getUTCHours() == 0 &&
+            start.getUTCMinutes() == 0 &&
+            start.getUTCSeconds() == 0 &&
+            end.getUTCHours() == 0 &&
+            end.getUTCMinutes() == 0 &&
+            end.getUTCSeconds() == 0
+        ) {
+            start_str = start_str.split(' ')[0];
+            end_str = end_str.split(' ')[0];
+        }
+
+        eventItem.append(
+            $('<span class="prop time"></span>')
+                .append($('<span class="material-icons">schedule</span>'))
+                .append($('<span class="value"></span>').text(start_str + ' - ' + end_str))
+        );
+        eventItem.append(
+            $('<span class="prop creator"></span>')
+                .append($('<span class="material-icons">person</span>'))
+                .append($('<span class="value"></span>').text(e.creator))
+        );
+        eventItem.append(
+            $('<span class="prop status"></span>')
+                .append($('<span class="material-icons">info</span>'))
+                .append($('<span class="value"></span>').text(e.status))
+        );
+        eventItem.append(
+            $('<img>').attr('src', e.qrcode)
+        );
+
+        dummy_events.append(eventItem);
+    }
+    dummy_events.replaceAll('.events-area');
 }
 
 function refresh_time() {

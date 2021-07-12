@@ -8,6 +8,8 @@ from google.oauth2 import service_account
 from googleapiclient.discovery import build
 from datetime import date, datetime, timedelta
 import pytz
+import qrcode
+import base64
 
 def default(dct, key, default=None): # Load key from dct, or default on failure
     try:
@@ -138,6 +140,13 @@ class Calendar: # Object for getting calendar events
                 end = pytz.timezone('UTC').localize(end)
             
             # Build dict and add it to the return
+            qrobj = qrcode.QRCode(version=1, box_size=2)
+            qrobj.add_data(e['htmlLink'])
+            qrfile = io.BytesIO(b'')
+            qrobj.make_image(fit=True).save(qrfile, format='png')
+
+            data_url = 'data:image/png;base64,'+base64.b64encode(qrfile.getvalue()).decode('utf-8')
+
             item = {
                 'name': e['summary'],
                 'status': e['status'],
@@ -145,7 +154,8 @@ class Calendar: # Object for getting calendar events
                 'start': start.isoformat(),
                 'end': end.isoformat(),
                 'link': e['htmlLink'],
-                'creator': default(self.emailMap, e['creator']['email'], e['creator']['email'])
+                'creator': default(self.emailMap, e['creator']['email'], e['creator']['email']),
+                'qrcode': data_url
             }
             ret.append(item)
         return ret

@@ -234,6 +234,60 @@ html, body {
     background-color: var(--secondary-light);
     overflow: hidden;
 }
+#events-panel .events-area {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    display: inline-block;
+    width: 100%;
+    height: 100%;
+}
+#events-panel .events-area .event-item {
+    position: relative;
+    margin: 5px;
+    margin-bottom: 0px;
+    display: inline-block;
+    width: calc(100% - 10px);
+    height: 57px;
+    border-radius: 5px;
+    background-color: var(--secondary-dark);
+    box-sizing: border-box;
+}
+#events-panel .events-area .event-item .prop {
+    position: absolute;
+}
+#events-panel .events-area .event-item .prop * {
+    vertical-align: middle;
+}
+#events-panel .events-area .event-item .prop .value {
+    font-size: 16px;
+    margin-left: 5px;
+}
+#events-panel .events-area .event-item .prop.name {
+    top: 5px;
+    left: 57px;
+}
+#events-panel .events-area .event-item .prop.time {
+    top: 29px;
+    left: 57px;
+}
+#events-panel .events-area .event-item .prop.creator {
+    top: 5px;
+    left: 50%;
+}
+#events-panel .events-area .event-item .prop.status {
+    top: 29px;
+    left: 50%;
+}
+#events-panel .events-area .event-item img {
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    border-radius: 4px;
+    width: 53px;
+    height: 53px;
+}
+
 #time-panel {
     position: absolute;
     top: 10px;
