@@ -145,8 +145,24 @@ function refresh_events(data) {
                 .append($('<span class="material-icons">event_note</span>'))
                 .append($('<span class="value"></span>').text(e.name))
         );
-        var start = new Date(Date.parse(e.start));
-        var end = new Date(Date.parse(e.end));
+        var start = {
+            year: Number(e.start.split('T')[0].split('-')[0]),
+            month: Number(e.start.split('T')[0].split('-')[1]),
+            date: Number(e.start.split('T')[0].split('-')[2]),
+            hour: Number(e.start.split('T')[1].split(':')[0]),
+            minute: Number(e.start.split('T')[1].split(':')[1]),
+            second: Number(e.start.split('T')[1].split(':')[2].split('+')[0])
+        };
+        start = new Date(start.year, start.month, start.date, start.hour, start.minute, start.second);
+        var end = {
+            year: Number(e.end.split('T')[0].split('-')[0]),
+            month: Number(e.end.split('T')[0].split('-')[1]),
+            date: Number(e.end.split('T')[0].split('-')[2]),
+            hour: Number(e.end.split('T')[1].split(':')[0]),
+            minute: Number(e.end.split('T')[1].split(':')[1]),
+            second: Number(e.end.split('T')[1].split(':')[2].split('+')[0])
+        };
+        end = new Date(end.year, end.month, end.date, end.hour, end.minute, end.second);
 
         var start_str = zero(start.getMonth(), 2) + '/' + 
             zero(start.getDate(), 2) + '/' + 
@@ -160,12 +176,12 @@ function refresh_events(data) {
             zero(end.getMinutes(), 2);
         
         if (
-            start.getUTCHours() == 0 &&
-            start.getUTCMinutes() == 0 &&
-            start.getUTCSeconds() == 0 &&
-            end.getUTCHours() == 0 &&
-            end.getUTCMinutes() == 0 &&
-            end.getUTCSeconds() == 0
+            start.getHours() == 0 &&
+            start.getMinutes() == 0 &&
+            start.getSeconds() == 0 &&
+            end.getHours() == 0 &&
+            end.getMinutes() == 0 &&
+            end.getSeconds() == 0
         ) {
             start_str = start_str.split(' ')[0];
             end_str = end_str.split(' ')[0];

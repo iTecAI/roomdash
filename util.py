@@ -99,19 +99,15 @@ class Calendar: # Object for getting calendar events
         self.cid = cid
         self.emailMap = emailMap
 
-    def getEvents(self, count=25, days=7): # Get list of events
+    def getEvents(self, count=25): # Get list of events
         # Get start and end of results to fetch
-        now = datetime.utcnow().isoformat() + 'Z'
-        endDate = (datetime.utcnow()+timedelta(days=days)).isoformat() + 'Z'
 
         # Get raw list of events
         calendar = self.service.events().list(
             calendarId=self.cid,
             maxResults=count,
             orderBy='startTime',
-            singleEvents=True,
-            timeMin=now,
-            timeMax=endDate
+            singleEvents=True
         ).execute()
         events = calendar['items']
 

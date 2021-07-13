@@ -31,7 +31,7 @@ def apiFetchLoop(conf): # Loop through getting API data and saving it locally
             f.write(img)
 
         # Get events
-        events = cal.getEvents(count=conf['eventCount'], days=conf['calendarDaysForward'])
+        events = cal.getEvents(count=conf['eventCount'])
         with open(os.path.join(*conf['persistenceFolder'].split('/'), 'calendarEvents.json'), 'w') as f:
             json.dump(events, f, indent=4)
         

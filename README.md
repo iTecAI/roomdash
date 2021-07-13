@@ -26,7 +26,6 @@ A dashboard for my college room
         "email": "name"
     },
     "eventCount": 10,
-    "calendarDaysForward": 7,
     "host": "localhost",
     "port": 1024,
     "units": "metric"
