@@ -66,15 +66,17 @@ function refresh_weather(data) {
         if (d.getHours() > 12) {
             var hstring = d.getHours() - 12;
             var suffix = 'PM';
+        } else if (d.getHours() == 12) {
+            var hstring = d.getHours();
+            var suffix = 'PM';
+        } else if (d.getHours() == 0) {
+            var hstring = 12;
+            var suffix = 'AM';
         } else {
             var hstring = d.getHours();
             var suffix = 'AM';
         }
-        if (hstring == 0) {
-            var tm = '12 AM';
-        } else {
-            var tm = hstring + ' ' + suffix;
-        }
+        var tm = hstring + ' ' + suffix;
         hourly_weather
             .append(
                 $('<div class="hourly-weather-item"></div>')
