@@ -117,23 +117,35 @@ class Calendar: # Object for getting calendar events
             # Assemble start and end entries
             if 'dateTime' in e['start'].keys():
                 start = datetime.fromisoformat(e['start']['dateTime'])
-                if 'timeZone' in e['start'].keys():
-                    start = pytz.timezone(e['start']['timeZone']).localize(start)
-                else:
-                    start = pytz.timezone('UTC').localize(start)
+                try:
+                    if 'timeZone' in e['start'].keys():
+                        start = pytz.timezone(e['start']['timeZone']).localize(start)
+                    else:
+                        start = pytz.timezone('UTC').localize(start)
+                except ValueError:
+                    pass
             else:
                 start = datetime.fromisoformat(e['start']['date'])
-                start = pytz.timezone('UTC').localize(start)
+                try:
+                    start = pytz.timezone('UTC').localize(start)
+                except ValueError:
+                    pass
 
             if 'dateTime' in e['end'].keys():
                 end = datetime.fromisoformat(e['end']['dateTime'])
-                if 'timeZone' in e['end'].keys():
-                    end = pytz.timezone(e['end']['timeZone']).localize(end)
-                else:
-                    end = pytz.timezone('UTC').localize(end)
+                try:
+                    if 'timeZone' in e['end'].keys():
+                        end = pytz.timezone(e['end']['timeZone']).localize(end)
+                    else:
+                        end = pytz.timezone('UTC').localize(end)
+                except ValueError:
+                    pass
             else:
                 end = datetime.fromisoformat(e['end']['date'])
-                end = pytz.timezone('UTC').localize(end)
+                try:
+                    end = pytz.timezone('UTC').localize(end)
+                except ValueError:
+                    pass
             
             # Build dict and add it to the return
             qrobj = qrcode.QRCode(version=1, box_size=2)

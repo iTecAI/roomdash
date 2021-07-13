@@ -151,7 +151,7 @@ function refresh_events(data) {
             date: Number(e.start.split('T')[0].split('-')[2]),
             hour: Number(e.start.split('T')[1].split(':')[0]),
             minute: Number(e.start.split('T')[1].split(':')[1]),
-            second: Number(e.start.split('T')[1].split(':')[2].split('+')[0])
+            second: Number(e.start.split('T')[1].split(':')[2].split('+')[0].split('-')[0])
         };
         start = new Date(start.year, start.month, start.date, start.hour, start.minute, start.second);
         var end = {
@@ -160,7 +160,7 @@ function refresh_events(data) {
             date: Number(e.end.split('T')[0].split('-')[2]),
             hour: Number(e.end.split('T')[1].split(':')[0]),
             minute: Number(e.end.split('T')[1].split(':')[1]),
-            second: Number(e.end.split('T')[1].split(':')[2].split('+')[0])
+            second: Number(e.end.split('T')[1].split(':')[2].split('+')[0].split('-')[0])
         };
         end = new Date(end.year, end.month, end.date, end.hour, end.minute, end.second);
 
