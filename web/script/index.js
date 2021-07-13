@@ -1,6 +1,7 @@
 var WEATHER = {};
 var EVENTS = [];
 var CONFIG = {};
+var FSSET = false;
 
 var UNITS = {
     standard: "K",

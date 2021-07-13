@@ -8,3 +8,4 @@ starlette
 uvicorn
 aiofiles
 qrcode
+selenium

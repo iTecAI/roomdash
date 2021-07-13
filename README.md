@@ -2,7 +2,7 @@
 A dashboard for my college room
 
 ## Installation
-1. Run `python -m pip install -r requirements.txt --upgrade` or equivalent to install the required libraries.
+1. Run `sudo bash install.sh` or equivalent to install the required libraries.
 2. Acquire a `config.json` like the following:
 ```json
 {
