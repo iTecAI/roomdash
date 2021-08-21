@@ -212,22 +212,12 @@ html, body {
 }
 #weather-panel .weather-daily .item .forecast-humidity {
     position: absolute;
-    left: 330px;
+    left: 320px;
     top: 50%;
     transform: translate(0, -50%);
 }
 #weather-panel .weather-daily .item .forecast-humidity span {
     vertical-align: middle;
-}
-#weather-panel .weather-daily .item .forecast-uvi {
-    position: absolute;
-    left: 400px;
-    top: 50%;
-    transform: translate(0, -50%);
-}
-#weather-panel .weather-daily .item .forecast-uvi span {
-    vertical-align: middle;
-    margin-right: 4px;
 }
 
 #events-panel {
@@ -280,11 +270,11 @@ html, body {
 }
 #events-panel .events-area .event-item .prop.creator {
     top: 5px;
-    left: 50%;
+    left: 75%;
 }
 #events-panel .events-area .event-item .prop.status {
     top: 29px;
-    left: 50%;
+    left: 75%;
 }
 #events-panel .events-area .event-item img {
     position: absolute;

@@ -115,23 +115,6 @@ function refresh_weather(data) {
                     .append('<span class="material-icons">water_drop</span>')
                     .append($('<span class="value"><span>').text(WEATHER.daily[d].humidity + '%'))
             );
-        var uvi = WEATHER.daily[d].uvi;
-        if (uvi < 3) {
-            var uvim = '[ LOW UVI ]';
-        } else if (uvi < 6) {
-            var uvim = '[ MODERATE UVI ]';
-        } else if (uvi < 8) {
-            var uvim = '[ HIGH UVI ]';
-        } else if (uvi < 11) {
-            var uvim = '[ VERY HIGH UVI ]';
-        } else {
-            var uvim = '[ EXTREME UVI ]';
-        }
-        forecast.append(
-            $('<div class="forecast-uvi"></div>')
-                .append('<span class="material-icons">wb_sunny</span>')
-                .append($('<span class="value"><span>').text(uvi.toFixed(2) + ' ' + uvim))
-        );
         dummy_daily.append(forecast);
     }
     dummy_daily.replaceAll('.weather-daily');
