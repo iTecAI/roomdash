@@ -221,7 +221,7 @@ html, body {
 }
 #weather-panel .weather-daily .item .forecast-uvi {
     position: absolute;
-    left: 400px;
+    left: 380px;
     top: 50%;
     transform: translate(0, -50%);
 }
