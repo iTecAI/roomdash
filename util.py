@@ -89,7 +89,7 @@ def fetchWeatherInformation(latitude, longitude, zoom, keys={
     return oneCallData, resultantBytes.getvalue()
 
 class Calendar: # Object for getting calendar events
-    def __init__(self, credentials_file, cid, emailMap={}):
+    def __init__(self, credentials_file, cid, emailMap={}, tz='US/Eastern'):
         SCOPES = ['https://www.googleapis.com/auth/calendar']
         SERVICE_ACCOUNT_FILE = credentials_file
 
@@ -98,6 +98,7 @@ class Calendar: # Object for getting calendar events
         self.service = build('calendar', 'v3', credentials=self.credentials)
         self.cid = cid
         self.emailMap = emailMap
+        self.tz = tz
 
     def getEvents(self, count=25): # Get list of events
         # Get start and end of results to fetch
@@ -107,7 +108,8 @@ class Calendar: # Object for getting calendar events
             calendarId=self.cid,
             maxResults=count,
             orderBy='startTime',
-            singleEvents=True
+            singleEvents=True,
+            timeMin=datetime.now(tz=pytz.timezone(self.tz)).isoformat()
         ).execute()
         events = calendar['items']
 

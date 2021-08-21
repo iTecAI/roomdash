@@ -1,7 +1,8 @@
 #!/bin/sh
 
 sudo apt install python3-pip
-pip3 install -r requirements.txt --upgrade
+python3 -m ensurepip
+python3 -m pip install -r requirements.txt --upgrade
 
 mkdir temp
 cd temp

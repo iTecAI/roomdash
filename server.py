@@ -9,7 +9,7 @@ import uvicorn
 
 def apiFetchLoop(conf): # Loop through getting API data and saving it locally
     # Initialize calendar
-    cal = Calendar(os.path.join(*conf['calKey'].split('/')), conf['calendarId'], emailMap=conf['emailMap'])
+    cal = Calendar(os.path.join(*conf['calKey'].split('/')), conf['calendarId'], emailMap=conf['emailMap'], tz=conf['timezone'])
     while True:
         # Get weather info
         data, img = fetchWeatherInformation(
