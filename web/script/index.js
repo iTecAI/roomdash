@@ -115,6 +115,12 @@ function refresh_weather(data) {
                     .append('<span class="material-icons">water_drop</span>')
                     .append($('<span class="value"><span>').text(WEATHER.daily[d].humidity + '%'))
             );
+        var uvi = WEATHER.daily[d].uvi;
+        forecast.append(
+            $('<div class="forecast-uvi"></div>')
+                .append('<span class="material-icons">wb_sunny</span>')
+                .append($('<span class="value"><span>').text(uvi.toFixed(2)))
+        );
         dummy_daily.append(forecast);
     }
     dummy_daily.replaceAll('.weather-daily');
