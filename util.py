@@ -156,7 +156,8 @@ class Calendar: # Object for getting calendar events
             
             # Build dict and add it to the return
             qrobj = qrcode.QRCode(version=1, box_size=2)
-            qrobj.add_data(e['htmlLink'])
+            shortened_url = requests.get('https://tinyurl.com/api-create.php', params={'url': e['htmlLink']})
+            qrobj.add_data(shortened_url.text)
             qrfile = io.BytesIO(b'')
             qrobj.make_image(fit=True).save(qrfile, format='png')
 

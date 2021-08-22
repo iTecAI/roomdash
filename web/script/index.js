@@ -136,12 +136,18 @@ function refresh_events(data) {
     EVENTS = data;
 
     var dummy_events = $('<div class="events-area"></div>');
+    var evt_count = ($('.events-area').height() / 94).toFixed(0) - 1;
+    c = 0;
     for (var e of EVENTS) {
         var eventItem = $('<div class="event-item shadow-small"></div>');
+        var eventTitle = e.calendarName+' / '+e.name;
+        if (eventTitle.length > 35) {
+            eventTitle = eventTitle.substr(0, 32) + '...'
+        }
         eventItem.append(
             $('<span class="prop name"></span>')
                 .append($('<span class="material-icons">event_note</span>'))
-                .append($('<span class="value"></span>').text(e.calendarName+' / '+e.name))
+                .append($('<span class="value"></span>').text(eventTitle))
         );
         var start = {
             year: Number(e.start.split('T')[0].split('-')[0]),
@@ -209,6 +215,10 @@ function refresh_events(data) {
         });
 
         dummy_events.append(eventItem);
+        c += 1;
+        if (c >= evt_count) {
+            break;
+        }
     }
     dummy_events.replaceAll('.events-area');
     $('.no-events').toggle(EVENTS.length == 0);
