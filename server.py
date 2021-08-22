@@ -9,7 +9,7 @@ import uvicorn
 
 def apiFetchLoop(conf): # Loop through getting API data and saving it locally
     # Initialize calendar
-    cal = Calendar(os.path.join(*conf['calKey'].split('/')), conf['calendarId'], emailMap=conf['emailMap'], tz=conf['timezone'])
+    calendars = [Calendar(os.path.join(*conf['calKey'].split('/')), c['id'], emailMap=conf['emailMap'], tz=conf['timezone'], name=c['name'], color=c['color']) for c in conf['calendars']]
     while True:
         # Get weather info
         data, img = fetchWeatherInformation(
@@ -31,7 +31,9 @@ def apiFetchLoop(conf): # Loop through getting API data and saving it locally
             f.write(img)
 
         # Get events
-        events = cal.getEvents(count=conf['eventCount'])
+        events = []
+        for cal in calendars:
+            events.extend(cal.getEvents(count=conf['eventCount']))
         with open(os.path.join(*conf['persistenceFolder'].split('/'), 'calendarEvents.json'), 'w') as f:
             json.dump(events, f, indent=4)
         
@@ -47,7 +49,7 @@ app = FastAPI()
 
 @app.get('/debug')
 async def get_debug():
-    return {'target': CONFIG['target'], 'calendar': CONFIG['calendarId'], 'units': CONFIG['units']}
+    return {'target': CONFIG['target'], 'calendars': CONFIG['calendars'], 'units': CONFIG['units']}
 
 @app.get('/data/weatherMap')
 async def get_weather_map():

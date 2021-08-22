@@ -67,7 +67,6 @@ function refresh_weather(data) {
         item_count = 16;
     }
     var item_width = Math.ceil($('.weather-hourly').width() / item_count) - 10;
-    console.log(item_count, item_width);
     for (var h = 0; h <= item_count * 2 - 1; h += 2) {
         var d = new Date(WEATHER.hourly[h].dt * 1000);
         if (d.getHours() > 12) {
@@ -138,11 +137,11 @@ function refresh_events(data) {
 
     var dummy_events = $('<div class="events-area"></div>');
     for (var e of EVENTS) {
-        var eventItem = $('<div class="event-item"></div>');
+        var eventItem = $('<div class="event-item shadow-small"></div>');
         eventItem.append(
             $('<span class="prop name"></span>')
                 .append($('<span class="material-icons">event_note</span>'))
-                .append($('<span class="value"></span>').text(e.name))
+                .append($('<span class="value"></span>').text(e.calendarName+' / '+e.name))
         );
         var start = {
             year: Number(e.start.split('T')[0].split('-')[0]),
@@ -196,14 +195,18 @@ function refresh_events(data) {
                 .append($('<span class="material-icons">person</span>'))
                 .append($('<span class="value"></span>').text(e.creator))
         );
-        eventItem.append(
+        /*eventItem.append(
             $('<span class="prop status"></span>')
                 .append($('<span class="material-icons">info</span>'))
                 .append($('<span class="value"></span>').text(e.status))
-        );
+        );*/
         eventItem.append(
             $('<img>').attr('src', e.qrcode)
         );
+        eventItem.css({
+            'color': e.color.foreground,
+            'background-color': e.color.background
+        });
 
         dummy_events.append(eventItem);
     }

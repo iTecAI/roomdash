@@ -19,6 +19,10 @@ html, body {
     -webkit-box-shadow: 0px 0px 14px 2px rgba(0,0,0,0.33); 
     box-shadow: 0px 0px 14px 2px rgba(0,0,0,0.33);
 }
+.shadow-small {
+    -webkit-box-shadow: 0px 0px 4px 2px rgba(0,0,0,0.22); 
+    box-shadow: 0px 0px 4px 2px rgba(0,0,0,0.22);
+}
 
 .material-icons.marker {
     position: absolute;
@@ -255,7 +259,7 @@ html, body {
     margin-bottom: 0px;
     display: inline-block;
     width: calc(100% - 10px);
-    height: 57px;
+    height: 84px;
     border-radius: 5px;
     background-color: var(--secondary-dark);
     box-sizing: border-box;
@@ -271,28 +275,24 @@ html, body {
     margin-left: 5px;
 }
 #events-panel .events-area .event-item .prop.name {
-    top: 5px;
-    left: 57px;
+    top: 7px;
+    left: 84px;
 }
 #events-panel .events-area .event-item .prop.time {
-    top: 29px;
-    left: 57px;
+    top: 32px;
+    left: 84px;
 }
 #events-panel .events-area .event-item .prop.creator {
-    top: 5px;
-    left: 75%;
-}
-#events-panel .events-area .event-item .prop.status {
-    top: 29px;
-    left: 75%;
+    top: 56px;
+    left: 84px;
 }
 #events-panel .events-area .event-item img {
     position: absolute;
     top: 2px;
     left: 2px;
     border-radius: 4px;
-    width: 53px;
-    height: 53px;
+    width: 80px;
+    height: 80px;
 }
 #events-panel .no-events {
     position: absolute;

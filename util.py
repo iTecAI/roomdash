@@ -89,7 +89,10 @@ def fetchWeatherInformation(latitude, longitude, zoom, keys={
     return oneCallData, resultantBytes.getvalue()
 
 class Calendar: # Object for getting calendar events
-    def __init__(self, credentials_file, cid, emailMap={}, tz='US/Eastern'):
+    def __init__(self, credentials_file, cid, emailMap={}, tz='US/Eastern', name='Events', color={
+        'background': '#ededed',
+        'foreground': '#000000'
+    }):
         SCOPES = ['https://www.googleapis.com/auth/calendar']
         SERVICE_ACCOUNT_FILE = credentials_file
 
@@ -99,6 +102,8 @@ class Calendar: # Object for getting calendar events
         self.cid = cid
         self.emailMap = emailMap
         self.tz = tz
+        self.name = name
+        self.color = color
 
     def getEvents(self, count=25): # Get list of events
         # Get start and end of results to fetch
@@ -165,7 +170,10 @@ class Calendar: # Object for getting calendar events
                 'end': end.isoformat(),
                 'link': e['htmlLink'],
                 'creator': default(self.emailMap, e['creator']['email'], e['creator']['email']),
-                'qrcode': data_url
+                'qrcode': data_url,
+                'calendarName': self.name,
+                'color': self.color,
+                'calendarId': self.cid
             }
             ret.append(item)
         return ret
