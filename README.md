@@ -11,6 +11,7 @@ A dashboard for my college room
     "calKey": "path to google calendar service account credentials",
     "persistenceFolder": "persistent",
     "fetchLoopDelay": 60,
+    "pingLoopDelay": 5,
     "target": {
         "latitude": LATITUDE,
         "longitude": LONGITUDE,
@@ -21,14 +22,30 @@ A dashboard for my college room
         ],
         "locationDisplayName": "NAME OF LOCATION"
     },
-    "calendarId": "Calendar id",
+    "calendars": [
+        {
+            "id": "Calendar ID",
+            "name": "Calendar name",
+            "color": {
+                "background": "background color",
+                "foreground": "font color"
+            }
+        }
+    ],
     "emailMap": {
         "email": "name"
     },
     "eventCount": 10,
     "host": "localhost",
     "port": 1024,
-    "units": "metric"
+    "units": "metric",
+    "timezone": "Timezone of calendars",
+    "servers": [
+        {
+            "name": "Display name of server",
+            "address": "IP/Domain to ping"
+        }
+    ]
 }
 ```
 3. Get a credentials JSON for the google calendar service account.

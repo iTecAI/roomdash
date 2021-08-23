@@ -182,7 +182,7 @@ html, body {
     position: relative;
     display: inline-block;
     width: calc(100% - 10px);
-    height: calc((100% / 8) - 10px);
+    height: calc((100% / 7) - 13px);
     box-sizing: border-box;
     background-color: var(--secondary-dark);
     border-radius: 5px;
@@ -239,7 +239,7 @@ html, body {
     top: 30vh;
     left: 40vw;
     display: inline-block;
-    width: calc(60vw - 10px);
+    width: calc(48vw - 10px);
     height: calc(70vh - 10px);
     border-radius: 10px;
     background-color: var(--secondary-light);
@@ -350,4 +350,55 @@ html, body {
 #time-panel .location-name * {
     vertical-align: middle;
     margin-right: 5px;
+}
+
+#server-panel {
+    position: absolute;
+    top: 30vh;
+    left: 88vw;
+    display: inline-block;
+    width: calc(12vw - 10px);
+    height: calc(70vh - 10px);
+    border-radius: 10px;
+    background-color: var(--secondary-light);
+    overflow: hidden;
+}
+#server-panel .server-area {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    display: inline-block;
+    width: 100%;
+    height: 100%;
+}
+#server-panel .server-area .item {
+    position: relative;
+    display: inline-block;
+    width: calc(12vw - 20px);
+    height: calc(12vw - 20px);
+    margin: 5px;
+    border-radius: 5px;
+    background-color: #c21c1c;
+    color: #ffffff;
+    margin-bottom: 0px;
+}
+#server-panel .server-area .item.alive {
+    background-color: #4fcf13;
+    color: #000000;
+}
+#server-panel .server-area .item .title {
+    position: absolute;
+    top: 45%;
+    left: 50%;
+    font-size: 20px;
+    font-weight: bold;
+    transform: translate(-50%, -50%);
+}
+#server-panel .server-area .item .ping {
+    position: absolute;
+    top: 65%;
+    left: 50%;
+    font-size: 15px;
+    font-weight: bold;
+    transform: translate(-50%, -50%);
 }

@@ -7,6 +7,7 @@ from multiprocessing import Process
 import time
 import uvicorn
 import datetime
+import icmplib
 
 def apiFetchLoop(conf): # Loop through getting API data and saving it locally
     # Initialize calendar
@@ -41,6 +42,22 @@ def apiFetchLoop(conf): # Loop through getting API data and saving it locally
         
         time.sleep(conf['fetchLoopDelay'])
 
+def pingLoop(conf):
+    while True:
+        serverdata = conf['servers'][:]
+        for i in serverdata:
+            try:
+                pingdata = icmplib.ping(i['address'], privileged=False)
+                i['alive'] = pingdata.is_alive
+                i['ping'] = str(pingdata.avg_rtt) + 's'
+            except icmplib.NameLookupError:
+                i['alive'] = False
+                i['ping'] = 'N/A'
+        with open(os.path.join(*conf['persistenceFolder'].split('/'), 'pingData.json'), 'w') as f:
+            json.dump(serverdata, f, indent=4)
+        time.sleep(conf['pingLoopDelay'])
+
+
 # Load configuration file @ config.json
 with open('config.json', 'r') as f:
     CONFIG = json.load(f)
@@ -69,6 +86,11 @@ async def get_events():
     with open(os.path.join(*CONFIG['persistenceFolder'].split('/'), 'calendarEvents.json'), 'r') as f:
         return json.load(f)
 
+@app.get('/data/pings')
+async def get_pings():
+    with open(os.path.join(*CONFIG['persistenceFolder'].split('/'), 'pingData.json'), 'r') as f:
+        return json.load(f)
+
 app.mount('/s', StaticFiles(directory='web'), name='static')
 
 @app.get('/')
@@ -84,6 +106,8 @@ if __name__ == '__main__':
     # Start fetch loop
     RUNNING_PROCESS = Process(target=apiFetchLoop, name='FetchLoop', args=[CONFIG], daemon=True)
     RUNNING_PROCESS.start()
+    RUNNING_PROCESS2 = Process(target=pingLoop, name='PingLoop', args=[CONFIG], daemon=True)
+    RUNNING_PROCESS2.start()
 
     # Start REST API
     uvicorn.run('server:app', host=CONFIG['host'], port=CONFIG['port'], access_log=False)

@@ -96,7 +96,7 @@ function refresh_weather(data) {
     dummy_stats.replaceAll('.current-weather-stats');
 
     var dummy_daily = $('<div class="weather-daily"></div>');
-    for (var d = 0; d < 8; d++) {
+    for (var d = 0; d < 7; d++) {
         var forecast = $('<div class="item"></div>');
         forecast.append(
             $('<img>').attr('src', 'http://openweathermap.org/img/wn/'+WEATHER.daily[d].weather[0].icon+'@2x.png')
@@ -246,17 +246,34 @@ function refresh_time() {
     $('#time-panel .location-name .value').text(CONFIG.target.locationDisplayName);
 }
 
+function refresh_pings(data) {
+    var dummy_servers = $('<div class="server-area"></div>');
+    for (var server of data) {
+        dummy_servers.append(
+            $('<div class="server item shadow-small"></div>')
+                .append($('<span class="title"></span>').text(server.name))
+                .append($('<span class="ping"></span>').text(server.ping))
+                .toggleClass('alive', server.alive)
+        );
+    }
+    dummy_servers.replaceAll('.server-area');
+}
+
 $(document).ready(function () {
     $.get('/debug').done(function (data) {
         console.log('Loaded config');
         CONFIG = data;
         $.get('/data/weather').done(refresh_weather);
         $.get('/data/events').done(refresh_events);
+        $.get('/data/pings').done(refresh_pings);
         setInterval(function () {
             $.get('/data/weather').done(refresh_weather);
         }, 5000);
         setInterval(function () {
             $.get('/data/events').done(refresh_events);
+        }, 5000);
+        setInterval(function () {
+            $.get('/data/pings').done(refresh_pings);
         }, 5000);
         setInterval(refresh_time, 500);
     });
