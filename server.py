@@ -6,6 +6,7 @@ from util import fetchWeatherInformation, Calendar
 from multiprocessing import Process
 import time
 import uvicorn
+import datetime
 
 def apiFetchLoop(conf): # Loop through getting API data and saving it locally
     # Initialize calendar
@@ -34,6 +35,7 @@ def apiFetchLoop(conf): # Loop through getting API data and saving it locally
         events = []
         for cal in calendars:
             events.extend(cal.getEvents(count=conf['eventCount']))
+        events = sorted(events, key=lambda event: datetime.datetime.fromisoformat(event['start']).timestamp())
         with open(os.path.join(*conf['persistenceFolder'].split('/'), 'calendarEvents.json'), 'w') as f:
             json.dump(events, f, indent=4)
         
